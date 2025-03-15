@@ -1,24 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
+import NotesList from "./components/notesList";
+import NoteEditor from "./components/notesEditor";
+import { useDispatch } from "react-redux";
+import { addNote } from "./store/slices/notesSlice";
+
+const NotesApp = () => {
+  const dispatch = useDispatch();
+
+  return (
+    <div className="flex h-screen bg-white">
+      <div className="flex flex-col">
+        <div className="p-4 bg-gray-200">
+          <button
+            onClick={() => dispatch(addNote())}
+            className="w-full flex items-center justify-center gap-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
+          >
+            Создать новую заметку
+          </button>
+        </div>
+        <NotesList />
+      </div>
+      <NoteEditor />
+    </div>
+  );
+};
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <NotesApp />
+    </Provider>
   );
 }
 
